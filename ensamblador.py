@@ -450,7 +450,7 @@ class EnsambladorIA32:
                 linea = f"0x{dir_base:04X} " + ' '.join(f"{b:02X}" for b in bytes_lista)
                 f.write(linea + '\n')
 
-    def generar_reportes(self):
+    """def generar_reportes(self):
         with open('tabla_simbolos.txt', 'w') as f:
             f.write("Label\tDirección\n")
             for simb, dir in self.tabla_simbolos.items():
@@ -460,7 +460,7 @@ class EnsambladorIA32:
             f.write("Label\tDirección\n")
             for simb, dirs in self.referencias_pendientes.items():
                 for d in dirs:
-                    f.write(f"{simb}\t0x{d:04X}\n")
+                    f.write(f"{simb}\t0x{d:04X}\n")"""
 
     def guardar_tabla_simbolos(self, nombre_archivo):
         with open(nombre_archivo, 'w') as f:

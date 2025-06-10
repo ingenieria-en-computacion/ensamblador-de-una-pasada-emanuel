@@ -469,9 +469,10 @@ class EnsambladorIA32:
 
     def guardar_referencias_pendientes(self, nombre_archivo):
         with open(nombre_archivo, 'w') as f:
+            f.write("Label\tDirección\n")
             for etiqueta, direcciones in self.referencias_pendientes.items():
-                for dir_ref in direcciones:
-                    f.write(f"{etiqueta} 0x{dir_ref:04X}\n")
+                if direcciones:  # Si hay al menos una dirección
+                    f.write(f"{etiqueta}\t0x{direcciones[0]:04X}\n")
 
     def guardar_codigo_hex(self, nombre_archivo):
         with open(nombre_archivo, 'w') as f:
@@ -479,6 +480,10 @@ class EnsambladorIA32:
                 bytes_str = ' '.join(f"{b:02X}" for b in bytes_)
                 f.write(f"0x{direccion:04X}: {bytes_str}\n")
 
+    def generar_reportes(self):
+        self.guardar_tabla_simbolos('tabla_simbolos.txt')
+        self.guardar_referencias_pendientes('referencias_pendientes.txt')
+        self.guardar_codigo_hex('codigo_hex.txt')
 
 def main():
      ensamblador = EnsambladorIA32()

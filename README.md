@@ -53,9 +53,7 @@ README.md # Este archivo
 
 
 📦 Requisitos
-
     Python 3
-
     No se requieren librerías externas.
 
 📝 Ejemplo de entrada (ejemplo.asm)

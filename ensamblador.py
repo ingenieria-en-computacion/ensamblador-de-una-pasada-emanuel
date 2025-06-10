@@ -464,8 +464,9 @@ class EnsambladorIA32:
 
     def guardar_tabla_simbolos(self, nombre_archivo):
         with open(nombre_archivo, 'w') as f:
+            f.write("Label\tDirección\n")
             for etiqueta, direccion in self.tabla_simbolos.items():
-                f.write(f"{etiqueta} 0x{direccion:04X}\n")
+                f.write(f"{etiqueta}\t0x{direccion:04X}\n")
 
     def guardar_referencias_pendientes(self, nombre_archivo):
         with open(nombre_archivo, 'w') as f:

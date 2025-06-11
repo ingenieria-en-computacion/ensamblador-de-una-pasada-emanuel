@@ -275,11 +275,24 @@ class EnsambladorIA32:
         op1, op2 = [x.strip() for x in operandos.split(',', 1)]
         if op1 in self.registros:
             if op2.startswith('0x') or op2.isdigit():
-                imm = int(op2,0)
+                """imm = int(op2,0)
                 opcode = 0x81
                 modrm = 0xF8 | self.registros[op1]  # /7 cmp r/m32, imm32
                 imm_bytes = imm.to_bytes(4, 'little', signed=True)
-                self.agregar_codigo([opcode, modrm] + list(imm_bytes))
+                self.agregar_codigo([opcode, modrm] + list(imm_bytes))"""
+                imm = int(op2, 0)
+                if -128 <= imm <= 127:
+                    # cmp reg, imm8 -> 83 /7 ib
+                    opcode = 0x83
+                    modrm = 0xC0 | (7 << 3) | self.registros[op1]
+                    imm_bytes = imm.to_bytes(1, 'little', signed=True)
+                    self.agregar_codigo([opcode, modrm] + list(imm_bytes))
+                else:
+                    # cmp reg, imm32 -> 81 /7 id
+                    opcode = 0x81
+                    modrm = 0xC0 | (7 << 3) | self.registros[op1]
+                    imm_bytes = imm.to_bytes(4, 'little', signed=True)
+                    self.agregar_codigo([opcode, modrm] + list(imm_bytes))
             elif op2 in self.registros:
                 # cmp reg, reg -> 39 /r
                 opcode = 0x39
